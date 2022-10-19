@@ -43,18 +43,26 @@ export class PokedexDetailsComponent implements OnInit {
         this.routes.navigateByUrl("/");
       }
       else {
-
         //Consuming Service to get Data from an api of a Pokimon
-        this._pokedexService.getProfile(newdata).subscribe((x:PokedexDetailResponse) => {
-
-          this.profileDetailsViewModel.Abilities = x.abilities;
-          this.profileDetailsViewModel.Heigth = x.height;
-          this.profileDetailsViewModel.Weight = x.weight;
-          this.profileDetailsViewModel.Image = x.sprites.other.home.front_default;
-          this.profileDetailsViewModel.Types = x.types;
-          this.profileDetailsViewModel.Name = x.name;
+        this._pokedexService.getProfile(newdata).subscribe({
+        next: (data: PokedexDetailResponse)=> {
+          this.profileDetailsViewModel.Abilities = data.abilities;
+          this.profileDetailsViewModel.Heigth = data.height;
+          this.profileDetailsViewModel.Weight = data.weight;
+          this.profileDetailsViewModel.Image = data.sprites.other.home.front_default;
+          this.profileDetailsViewModel.Types = data.types;
+          this.profileDetailsViewModel.Name = data.name;
           this.isLoad = false;
-        })
+          
+        },
+        error: error => {      
+          this.isLoad = false;     
+            this.routes.navigateByUrl("/");
+            console.error('There was an error!', error);
+        }
+    })
+     
+
       }
     })
   }
