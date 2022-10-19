@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';//environment
 import { PokedexResponse } from '../service-models/Responses/PokedexResponse';
+import { PokedexDetailResponse } from '../service-models/Responses/PokedexDetailResponse';
 
 
 @Injectable()
@@ -30,13 +31,13 @@ export class PokedexService {
   }
 
   //Consuming api to get information of a pokedex
-  public getProfile(name: string | undefined): Observable<any> {
+  public getProfile(name: string | undefined): Observable<PokedexDetailResponse> {
     const headerDirect = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Access-Control-Allow-Headers': 'Content-Type'
     }
-    return this._http.get<any>(this.baseUrl + name,
+    return this._http.get<PokedexDetailResponse>(this.baseUrl + name,
       { headers: headerDirect });
   }
 }

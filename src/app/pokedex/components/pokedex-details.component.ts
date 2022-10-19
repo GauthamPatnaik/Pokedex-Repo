@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileDetailsViewModel } from 'src/app/models/ViewModels/ProfileDetailsViewModel';
+import { PokedexDetailResponse } from 'src/app/service-models/Responses/PokedexDetailResponse';
 import { PokedexService } from 'src/app/services/pokedex.service';
 
 @Component({
@@ -44,7 +45,7 @@ export class PokedexDetailsComponent implements OnInit {
       else {
 
         //Consuming Service to get Data from an api of a Pokimon
-        this._pokedexService.getProfile(newdata).subscribe(x => {
+        this._pokedexService.getProfile(newdata).subscribe((x:PokedexDetailResponse) => {
 
           this.profileDetailsViewModel.Abilities = x.abilities;
           this.profileDetailsViewModel.Heigth = x.height;
