@@ -1,0 +1,42 @@
+<!-- #section-photos -->
+<div class="se-pre-con" *ngIf="isLoad"></div>
+<section class="row section-body" style="background-color:pink;color: black;">
+
+  <div class="col-md-6" style="text-align:center;">
+    <img [src]="profileDetailsViewModel.Image" alt="Image" class="img-fluid" width="50%">
+    <u><h4>{{profileDetailsViewModel.Name | uppercase}}</h4></u>
+  </div>
+  <div class="col-md-6" style="padding:20px ;">
+
+    <div class="row" style="padding-top:50px ;">
+      <div class="col-md-6">
+        <h4>Abilities:</h4>
+        <ul class="ul-check list-unstyled success">
+          <li *ngFor="let item of profileDetailsViewModel.Abilities">{{item.ability.name | uppercase}}</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h4>Type:</h4>
+        <ul class="ul-check list-unstyled success">
+          <li *ngFor="let item of profileDetailsViewModel.Types">{{item.type.name | uppercase}}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Heigth:</h4>
+        {{profileDetailsViewModel.Heigth}}
+      </div>
+      <div class="col-md-6">
+        <h4>Weight:</h4>
+        {{profileDetailsViewModel.Weight}}
+      </div>
+    </div>
+
+
+  </div>
+
+</section>
+<section class="section-body" style="background-color:pink;color: black;"></section>
+<!-- #section-photos -->

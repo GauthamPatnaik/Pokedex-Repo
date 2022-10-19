@@ -1,0 +1,28 @@
+ <!-- #section-photos -->
+<div class="se-pre-con" *ngIf="isLoad"></div>
+<section class="row align-items-stretch photos section-body">
+  <div class="col-12">
+
+    <div class="row align-items-stretch">
+
+      <div class="col-6 col-md-6 col-lg-3 image-boader" data-aos="fade-up" *ngFor="let item of display">
+        <a [href]="item.image" class="d-block photo-item" data-fancybox="gallery">
+          <img [src]="item.image" alt="Image" class="img-fluid">
+
+          <p style="text-align:center;">
+            <button class="btn btn-xs btn-danger">{{item.name}}</button>
+          </p>
+          <br>
+        </a>
+        <a (click)="onClickKnowMoreDetails(item.name)">
+          <div class="know-details-section">
+            <p style="float: right;">Know More <i class="fa fa-arrow-right" aria-hidden="true"></i></p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- #section-photos -->
