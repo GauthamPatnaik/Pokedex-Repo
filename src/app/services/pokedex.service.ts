@@ -20,14 +20,14 @@ export class PokedexService {
 
 
   //Consuming API to get list of pokedex 
-  public getPokedexList(): Observable<PokedexResponse> {
+  public getPokedexList(initialCount:number,defaultPageLength:number): Observable<PokedexResponse> {
+    let url=this.baseUrl + "?offset="+initialCount+"&limit="+defaultPageLength;
     const headerDirect = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Access-Control-Allow-Headers': 'Content-Type'
     }
-    return this._http.get<PokedexResponse>(this.baseUrl + "?offset=0&limit=151",
-      { headers: headerDirect });
+    return this._http.get<PokedexResponse>(url,{ headers: headerDirect });
   }
 
   //Consuming api to get information of a pokedex

@@ -19,6 +19,14 @@ export class PokedexHomeComponent implements OnInit {
   //Initilazing Viewmodel to view data in HTML
   _PokedexResponse: PokedexResponse | undefined;
   display: ProfileModel[] = [];
+ 
+  //pagination perameters 
+  nextActionDisbale=false;
+  backActionDisbale=true;
+  defaultPageLength:number=50;
+  initialCount:number=0;
+
+
 
   //Injecting
   //Router: To redicting from one to another
@@ -27,6 +35,7 @@ export class PokedexHomeComponent implements OnInit {
     private routes: Router,) {
 
   }
+
 
   ngOnInit(): void {
     this.getInitialLoadData();
@@ -38,7 +47,7 @@ export class PokedexHomeComponent implements OnInit {
     this.isLoad = true;
 
     //Consuming Service to get List of Data from an api of a Pokimon
-    this._pokedexService.getPokedexList().subscribe((x: PokedexResponse) => {
+    this._pokedexService.getPokedexList(this.initialCount,this.defaultPageLength).subscribe((x: PokedexResponse) => {
       this._PokedexResponse = x;
       this.display = this._PokedexResponse.results
 
@@ -54,11 +63,81 @@ export class PokedexHomeComponent implements OnInit {
 
   //On click redirecting to details page
   onClickKnowMoreDetails(name: string | undefined) {
-    console.log(name);
-    let selectedName = (name == undefined) ? undefined : name;
+      let selectedName = (name == undefined) ? undefined : name;
     this.routes.navigateByUrl("/pokedex-details/" + selectedName);
   }
 
+  onClickNext(){
+      //for loader loads in UI
+      this.isLoad = true;
 
+      //Page Sroll to Top
+      window.scrollTo(0, 0); 
+
+      if(this.initialCount==150){
+        this.defaultPageLength=1;
+        this.nextActionDisbale=true;
+      }
+      else if(this.initialCount<=150){
+        this.defaultPageLength=50;
+        this.initialCount=this.initialCount+this.defaultPageLength;
+        this.nextActionDisbale=false;
+        this.backActionDisbale=false;
+      }
+   
+      else{
+        console.log("this.initialCount:",this.initialCount ,"defaultPageLength: ",this.defaultPageLength)
+      }
+
+      
+
+
+    this._pokedexService.getPokedexList(this.initialCount,this.defaultPageLength).subscribe((x: PokedexResponse) => {
+      this._PokedexResponse = x;
+      this.display = this._PokedexResponse.results
+
+      this.display.forEach((x: ProfileModel) => {
+        this._pokedexService.getProfile(x.name).subscribe((p: PokedexDetailResponse) => {
+          x.image = p.sprites.other.home.front_default;
+          this.isLoad = false;
+        })
+      });
+    })
+  }
+
+  onClickBack(){
+      //for loader loads in UI
+      this.isLoad = true;
+
+      //Page Sroll to Top
+      window.scrollTo(0, 0);
+
+    this.defaultPageLength=50;
+    if(this.initialCount>0){  
+      this.initialCount=this.initialCount-this.defaultPageLength;
+      this.backActionDisbale=false;
+      this.nextActionDisbale=false;
+    }
+    else{
+      console.log("this.initialCount:",this.initialCount ,"defaultPageLength: ",this.defaultPageLength)
+    }
+    
+    if(this.initialCount==0){
+      this.defaultPageLength=50;
+      this.backActionDisbale=true;
+    }
+
+    this._pokedexService.getPokedexList(this.initialCount,this.defaultPageLength).subscribe((x: PokedexResponse) => {
+      this._PokedexResponse = x;
+      this.display = this._PokedexResponse.results
+
+      this.display.forEach((x: ProfileModel) => {
+        this._pokedexService.getProfile(x.name).subscribe((p: PokedexDetailResponse) => {
+          x.image = p.sprites.other.home.front_default;
+          this.isLoad = false;
+        })
+      });
+    })
+  }
 
 }
