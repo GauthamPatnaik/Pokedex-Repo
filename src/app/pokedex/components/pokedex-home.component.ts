@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 //Models
 import { ProfileModel } from 'src/app/models/Models/ProfileModel';
+import { PokedexDetailResponse } from 'src/app/service-models/Responses/PokedexDetailResponse';
 import { PokedexResponse } from 'src/app/service-models/Responses/PokedexResponse';
 import { PokedexService } from 'src/app/services/pokedex.service';
 
@@ -42,7 +43,7 @@ export class PokedexHomeComponent implements OnInit {
       this.display = this._PokedexResponse.results
 
       this.display.forEach((x: ProfileModel) => {
-        this._pokedexService.getProfile(x.name).subscribe((p: any) => {
+        this._pokedexService.getProfile(x.name).subscribe((p: PokedexDetailResponse) => {
           x.image = p.sprites.other.home.front_default;
           this.isLoad = false;
         })
